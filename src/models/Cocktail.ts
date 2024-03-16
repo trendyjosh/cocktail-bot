@@ -1,3 +1,4 @@
+import axios, { AxiosResponse } from 'axios';
 import { v1 as uuidv1 } from 'uuid';
 
 /**
@@ -44,5 +45,32 @@ export class Cocktail {
      */
     public getInstructions(): string {
         return this.instructions;
+    }
+
+    /**
+     * Find all cocktail recipes by name.
+     * @param cocktailName Name of cocktail to search
+     * @returns Array of Cocktail instances
+     */
+    public static async search(cocktailName: string): Promise<Array<Cocktail>> {
+        const cocktails: Array<Cocktail> = Array<Cocktail>();
+        await axios
+            .get('', {
+                params: {
+                    name: cocktailName
+                }
+            })
+            .then((response: AxiosResponse<any, any>) => {
+                response.data.forEach((cocktail: any) => {
+                    // Cast each anonymous object to a new Cocktail class instance
+                    const newCocktail: Cocktail = Object.assign(new Cocktail(), cocktail);
+                    // Add to return array
+                    cocktails.push(newCocktail);
+                });
+            })
+            .catch(function (error: any) {
+                console.log(error);
+            });
+        return cocktails;
     }
 }

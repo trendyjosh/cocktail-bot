@@ -30,4 +30,16 @@ export class CocktailController {
     embed.setDescription(commandsString);
     return { embeds: [embed] };
   }
+
+  /**
+   * Search for and select a cocktail by name.
+   * @param interaction Input command
+   */
+  public async searchCocktail(interaction: Command.ChatInputCommandInteraction): Promise<void> {
+    // @ts-ignore: HasServer precondition checks if guild is null
+    const serverId: string = interaction.guild.id;
+    // Get available workspaces
+    // @ts-ignore: HasServer precondition confirms server exists
+    await this.servers.get(serverId).searchCocktail(interaction);
+  }
 }
