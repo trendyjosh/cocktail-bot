@@ -73,4 +73,16 @@ export class Cocktail {
             });
         return cocktails;
     }
+
+    /**
+     * Find a cocktail by id in an array of cocktails.
+     * @param cocktails Haystack of cocktails to search in
+     * @param id Needle id of cocktail
+     * @returns The first cocktail matching specified id
+     */
+    public static inArray(cocktails: Array<Cocktail>, id: string): Cocktail | undefined {
+        return cocktails.find(cocktail => {
+            return cocktail.getId() == id;
+        })
+    }
 }
