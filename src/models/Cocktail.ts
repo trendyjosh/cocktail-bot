@@ -25,11 +25,15 @@ export class Cocktail {
     }
 
     /**
-     * Get the name of this cocktail.
+     * Get the name of this cocktail converted to title case.
      * @returns The cocktail name
      */
     public getName(): string {
-        return this.name;
+        const nameParts = this.name.split(' ');
+        const upperNameParts = nameParts.map((word: string) => {
+            return (word.charAt(0).toUpperCase() + word.slice(1));
+        });
+        return upperNameParts.join(' ');
     }
 
     /**
