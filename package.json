@@ -12,6 +12,10 @@
     "axios": "^1.6.7",
     "discord.js": "^14.9.0",
     "ts-node": "^10.9.1",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.8"
   }
 }
