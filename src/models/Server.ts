@@ -1,5 +1,5 @@
 import { Command } from "@sapphire/framework";
-import { ActionRowBuilder } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder, InteractionUpdateOptions, StringSelectMenuInteraction } from "discord.js";
 import { Cocktail } from "./Cocktail";
 import { CocktailSelectMenuBuilder } from "./CocktailSelectMenuBuilder";
 
@@ -29,9 +29,32 @@ export class Server {
         components: [row],
       });
 
-      // TODO 
-      // Get user selection
-      // Update message to show cocktail recipe and ingredients
+      // Only allow the user that made the request to select the cocktail
+      const filter = (i: { user: { id: string } }) => i.user.id === interaction.user.id;
+      try {
+        // Allow 2 minutes to retrieve the select reponse
+        const confirmation = await response.awaitMessageComponent({ filter, time: 120_000 });
+        if (confirmation instanceof StringSelectMenuInteraction && confirmation.customId === "cocktail") {
+          // The correct select response was received
+          const selectedCocktail: Cocktail | undefined = Cocktail.inArray(cocktails, confirmation.values[0]);
+
+          let reply: InteractionUpdateOptions;
+          if (selectedCocktail) {
+            // Respond with the cocktail details
+            const cocktailEmbed: EmbedBuilder = selectedCocktail.toEmbed();
+            reply = { embeds: [cocktailEmbed], content: null, components: [] };
+          } else {
+            console.log("No cocktail");
+            // Cocktail doesn't exist in the array
+            reply = { content: "Invalid selection", components: [] };
+          }
+          // Update the message with outcome
+          await confirmation.update(reply);
+        }
+      } catch (e) {
+        // No selection was made within the time limit
+        await response.edit({ content: "Selection not received within 2 minutes.", components: [] });
+      }
     } else {
       // No cocktails were found matching the search string
       await interaction.editReply({
