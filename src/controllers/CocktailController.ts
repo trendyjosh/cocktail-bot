@@ -2,7 +2,7 @@ import { Command, CommandStore } from "@sapphire/framework";
 import { Server } from "../models/Server";
 import { EmbedBuilder, InteractionReplyOptions } from "discord.js";
 
-export class Controller {
+export class CocktailController {
   private servers: Map<string, Server> = new Map<string, Server>();
 
   /**
