@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import { APIEmbedField, EmbedBuilder } from 'discord.js';
 import { v1 as uuidv1 } from 'uuid';
 
 /**
@@ -84,5 +85,47 @@ export class Cocktail {
         return cocktails.find(cocktail => {
             return cocktail.getId() == id;
         })
+    }
+
+    /**
+     * Get the cocktail ingredients and method formatted in a
+     * message embed object.
+     * @returns Embed containing cocktail ingredients and instructions
+     */
+    public toEmbed(): EmbedBuilder {
+        // Initialise embed
+        const embed: EmbedBuilder = new EmbedBuilder()
+            .setColor(0x274437)
+            .setAuthor({ name: "Recipe" });
+
+        // Set title
+        embed.setTitle(this.getName());
+
+        // Prepare ingredients
+        const ingredientsField: APIEmbedField = {
+            name: "Ingredients",
+            value: ""
+        };
+        this.getIngredients().forEach((ingredient: string, index: number) => {
+            if (index > 0) {
+                ingredientsField.value += "\n";
+            }
+            // Add each ingredient to the list
+            ingredientsField.value += ingredient;
+        });
+
+        // Prepare instructions
+        const instructionsField: APIEmbedField = {
+            name: "Instructions",
+            value: this.getInstructions()
+        };
+
+        // Set ingredients and instructions
+        embed.addFields([
+            ingredientsField,
+            instructionsField
+        ]);
+
+        return embed;
     }
 }
