@@ -2,11 +2,11 @@ import { ApplyOptions } from "@sapphire/decorators";
 import { ChatInputCommand, Command, container } from "@sapphire/framework";
 
 @ApplyOptions<Command.Options>({
-    description: "Search for cocktail by name.",
+    description: "Search for cocktail by ingredients.",
     preconditions: ["HasServer"],
 })
 export class SelectWorkspaceCommand extends Command {
-    private stringOptionName: string = "name";
+    private stringOptionName: string = "ingredients";
 
     public override registerApplicationCommands(registry: ChatInputCommand.Registry) {
         registry.registerChatInputCommand((builder) =>
@@ -16,7 +16,7 @@ export class SelectWorkspaceCommand extends Command {
                 .addStringOption((option) =>
                     option //
                         .setName(this.stringOptionName)
-                        .setDescription("Enter the name of a cocktail")
+                        .setDescription("Enter the ingredients separated by commas (',')")
                         .setRequired(true)
                 )
         );

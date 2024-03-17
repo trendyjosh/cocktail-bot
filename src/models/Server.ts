@@ -12,17 +12,14 @@ export class Server {
    * @param interaction The current slash command interaction
    * @returns Interaction response message
    */
-  public async searchCocktail(interaction: Command.ChatInputCommandInteraction): Promise<void> {
+  public async selectCocktail(interaction: Command.ChatInputCommandInteraction, cocktails: Array<Cocktail>): Promise<void> {
     // Prepare cocktail select menu
     let select = new CocktailSelectMenuBuilder().setCustomId("cocktail").setPlaceholder("Make a selection!");
-    // Get cocktails from search string
-    // @ts-ignore: name is a required input field
-    const searchString = interaction.options.getString("name").trim();
-    const cocktails = await Cocktail.search(searchString);
     if (cocktails.length) {
       // Add all cocktail results as options on the select menu
       select.addCocktailOptions(cocktails);
 
+      // Update message with select menu of cocktail results
       const row = new ActionRowBuilder<CocktailSelectMenuBuilder>().addComponents(select);
       const response = await interaction.editReply({
         content: "Choose a cocktail...",
@@ -61,5 +58,26 @@ export class Server {
         components: [],
       });
     }
+  }
+
+  /**
+   * Search for and select a cocktail by name or ingredients.
+   * @param interaction The current slash command interaction
+   * @param inputString The name of the input field
+   * @returns Interaction response message
+   */
+  public async searchCocktail(interaction: Command.ChatInputCommandInteraction, inputString: string): Promise<void> {
+    // Get cocktails search string
+    // @ts-ignore: string input is a required field
+    const searchString = interaction.options.getString(inputString).trim();
+    let cocktails;
+    if (inputString == "name") {
+      // Get cocktails by name
+      cocktails = await Cocktail.searchName(searchString);
+    } else {
+      // Get cocktails by ingredients
+      cocktails = await Cocktail.searchIngredients(searchString);
+    }
+    this.selectCocktail(interaction, cocktails);
   }
 }

@@ -10,4 +10,11 @@ declare module "@sapphire/pieces" {
   }
 }
 
+declare global {
+  interface CocktailApiParams {
+    name?: string;
+    ingredients?: string;
+  }
+}
+
 export default undefined;

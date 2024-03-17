@@ -53,17 +53,15 @@ export class Cocktail {
     }
 
     /**
-     * Find all cocktail recipes by name.
-     * @param cocktailName Name of cocktail to search
+     * Find all cocktail recipes by name or ingredients.
+     * @param params axios request params for name or ingredients
      * @returns Array of Cocktail instances
      */
-    public static async search(cocktailName: string): Promise<Array<Cocktail>> {
+    public static async search(params: CocktailApiParams): Promise<Array<Cocktail>> {
         const cocktails: Array<Cocktail> = Array<Cocktail>();
         await axios
             .get('', {
-                params: {
-                    name: cocktailName
-                }
+                params: params
             })
             .then((response: AxiosResponse<any, any>) => {
                 response.data.forEach((cocktail: any) => {
@@ -77,6 +75,30 @@ export class Cocktail {
                 console.log(error);
             });
         return cocktails;
+    }
+
+    /**
+     * Search for cocktails by name.
+     * @param cocktailName Name of cocktail to search
+     * @returns Array of Cocktail instances
+     */
+    public static async searchName(cocktailName: string): Promise<Array<Cocktail>> {
+        const params: CocktailApiParams = {
+            name: cocktailName
+        };
+        return await this.search(params);
+    }
+
+    /**
+     * Search for cocktails by list of ingredients.
+     * @param cocktailIngredients Comma-separated list of ingredients
+     * @returns Array of Cocktail instances
+     */
+    public static async searchIngredients(cocktailIngredients: string): Promise<Array<Cocktail>> {
+        const params: CocktailApiParams = {
+            ingredients: cocktailIngredients
+        };
+        return await this.search(params);
     }
 
     /**
@@ -98,9 +120,7 @@ export class Cocktail {
      */
     public toEmbed(): EmbedBuilder {
         // Initialise embed
-        const embed: EmbedBuilder = new EmbedBuilder()
-            .setColor(0x274437)
-            .setAuthor({ name: "Recipe" });
+        const embed: EmbedBuilder = new EmbedBuilder().setColor(0x274437);
 
         // Set title
         embed.setTitle(this.getName());

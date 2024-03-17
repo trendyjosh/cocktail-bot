@@ -34,12 +34,13 @@ export class CocktailController {
   /**
    * Search for and select a cocktail by name.
    * @param interaction Input command
+   * @param inputString The name of the input field
    */
-  public async searchCocktail(interaction: Command.ChatInputCommandInteraction): Promise<void> {
+  public async searchCocktail(interaction: Command.ChatInputCommandInteraction, inputString: string): Promise<void> {
     // @ts-ignore: HasServer precondition checks if guild is null
     const serverId: string = interaction.guild.id;
     // Get available workspaces
     // @ts-ignore: HasServer precondition confirms server exists
-    await this.servers.get(serverId).searchCocktail(interaction);
+    await this.servers.get(serverId).searchCocktail(interaction, inputString);
   }
 }
