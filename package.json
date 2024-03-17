@@ -9,13 +9,11 @@
     "@sapphire/decorators": "^6.0.1",
     "@sapphire/framework": "^4.4.1",
     "@types/node": "^18.15.13",
+    "@types/uuid": "^9.0.8",
     "axios": "^1.6.7",
     "discord.js": "^14.9.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.4.2",
     "uuid": "^9.0.1"
-  },
-  "devDependencies": {
-    "@types/uuid": "^9.0.8"
   }
 }
