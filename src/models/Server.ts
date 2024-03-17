@@ -44,7 +44,6 @@ export class Server {
             const cocktailEmbed: EmbedBuilder = selectedCocktail.toEmbed();
             reply = { embeds: [cocktailEmbed], content: null, components: [] };
           } else {
-            console.log("No cocktail");
             // Cocktail doesn't exist in the array
             reply = { content: "Invalid selection", components: [] };
           }
