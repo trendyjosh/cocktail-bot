@@ -1,10 +1,12 @@
-# Discord Bot template
+# Cocktail Bot
 
-The basic scaffolding for a Discord bot built using the [Sapphire](https://www.sapphirejs.dev/) Discordjs framework.
+A Discord bot to find recipes for cocktails, built using the [API Ninjas Cocktail API](https://www.api-ninjas.com/api/cocktail) and [Sapphire](https://www.sapphirejs.dev/) Discordjs framework.
 
 ## Features:
 
 - /help = List all available commands
+- /search = Find a cocktail by name
+- /ingredients = Find a cocktail by ingredients 
 
 ## Run
 
