@@ -5,7 +5,7 @@ import { ChatInputCommand, Command, container } from "@sapphire/framework";
     description: "Search for cocktail by ingredients.",
     preconditions: ["HasServer"],
 })
-export class SelectWorkspaceCommand extends Command {
+export class IngredientsCommand extends Command {
     private stringOptionName: string = "ingredients";
 
     public override registerApplicationCommands(registry: ChatInputCommand.Registry) {
